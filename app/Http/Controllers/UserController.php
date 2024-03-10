@@ -32,7 +32,6 @@ class userController extends Controller
      */
     public function store(Request $request)
     {
-       
         $request->validate([
             'user_type' => ['required', 'string', 'max:255'],
             'plan_id' => ['required', 'integer', 'max:255'],
