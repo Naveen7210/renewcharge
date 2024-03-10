@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Wallet;
+use App\Models\User;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
-class walletController extends Controller
+class userController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $wallets = Wallet::get();
-        return view('wallet.wallet')->with('wallets', $wallets);
+        $users = User::get();
+        return view('members.users')->with('users', $users);
     }
 
     /**
@@ -31,22 +32,22 @@ class walletController extends Controller
      */
     public function store(Request $request)
     {
-        
+       
         $request->validate([
             'user_type' => ['required', 'string', 'max:255'],
             'plan_id' => ['required', 'integer', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.Wallet::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $userid = Wallet::orderBy('id','DESC')->pluck('id')->first();
+        $userid = User::orderBy('id','DESC')->pluck('id')->first();
         $username = 2400 . $userid + 1;
         $uservalue = $userid + 1;
         $defaultnovalue = 0;
         $defaultnul = NULL;
 
-        Wallet::create([
+        User::create([
             'user_id' => $uservalue,
             'parent_id' => 1,
             'white_label_id' => $defaultnovalue,
@@ -88,7 +89,7 @@ class walletController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect('/wallet');
+        return redirect('/members');
     }
 
     /**

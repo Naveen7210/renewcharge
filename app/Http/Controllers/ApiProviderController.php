@@ -12,7 +12,8 @@ class ApiProviderController extends Controller
      */
     public function index()
     {
-        //
+        $apiproviders = api_provider::get();
+        return view('apiprovider.apiprovider')->with('apiproviders', $apiproviders);
     }
 
     /**

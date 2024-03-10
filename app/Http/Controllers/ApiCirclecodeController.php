@@ -12,7 +12,8 @@ class ApiCirclecodeController extends Controller
      */
     public function index()
     {
-        //
+        $apicircles = api_circlecode::get();
+        return view('apicircle.apicircle')->with('apicircles', $apicircles);
     }
 
     /**

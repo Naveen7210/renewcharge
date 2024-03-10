@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\ApiCirclecodeController;
+use App\Http\Controllers\ApiController;
+use App\Http\Controllers\ApiProviderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\userController;
+use App\Http\Controllers\walletController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +26,16 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::resource('/members', userController::class);
+
+Route::resource('/wallet', walletController::class);
+
+Route::resource('/apiwallet', ApiController::class);
+
+Route::resource('/apicircle', ApiCirclecodeController::class);
+
+Route::resource('/apiprovider', ApiProviderController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

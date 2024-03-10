@@ -12,7 +12,8 @@ class ApiController extends Controller
      */
     public function index()
     {
-        //
+        $apiwallets = Api::get();
+        return view('apiwallet.apiwallet')->with('apiwallets', $apiwallets);
     }
 
     /**

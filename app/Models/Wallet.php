@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class wallet extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory;
 
     protected $fillable = [
         'wallet_id',

@@ -1,9 +1,26 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+
+    <div class="flex">
+        <x-slot name="header">
+            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <x-nav-link :href="url('members')" :active="request()->routeIs('members')">
+                    {{ __('Members') }}
+                </x-nav-link>
+                <x-nav-link :href="url('wallet')" :active="request()->routeIs('wallet')">
+                    {{ __('Wallet') }}
+                </x-nav-link>
+                <x-nav-link :href="url('apiwallet')" :active="request()->routeIs('apiwallet')">
+                    {{ __('API') }}
+                </x-nav-link>
+                <x-nav-link :href="url('apicircle')" :active="request()->routeIs('apicircle')">
+                    {{ __('API Circle') }}
+                </x-nav-link>
+                <x-nav-link :href="url('apiprovider')" :active="request()->routeIs('apiprovider')">
+                    {{ __('API Provider') }}
+                </x-nav-link>
+            </div>
+        </x-slot>
+    </div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
