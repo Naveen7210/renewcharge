@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\api_circlecode;
-use Illuminate\Validation\Rules;
-use Illuminate\Support\Facades\Hash;
+use App\Models\providercode;
 use Illuminate\Http\Request;
 
-class ApiCirclecodeController extends Controller
+class ProvidercodeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $apicircles = api_circlecode::get();
-        return view('apicircle.apicircle')->with('apicircles', $apicircles);
+        $providercodes = providercode::get();
+        return view('providercode.providercode')->with('providercodes', $providercodes);
     }
 
     /**
@@ -23,7 +21,7 @@ class ApiCirclecodeController extends Controller
      */
     public function create()
     {
-        return view('apicircle.addapicircle');
+        return view('providercode.addprovidercode');
     }
 
     /**
@@ -33,35 +31,38 @@ class ApiCirclecodeController extends Controller
     {
         $request->validate([
             'api_name' => ['required', 'string', 'max:255'],
-            'circle_name' => ['required', 'string', 'max:255'],
+            'provider' => ['required', 'string', 'max:255'],
         ]);
 
-        $userid = api_circlecode::orderBy('id','DESC')->pluck('id')->first();
+        $userid = providercode::orderBy('id','DESC')->pluck('id')->first();
         $uservalue = $userid + 1;
+        if($request->api_name == "MROBOTICS"){
+            $defaultnovalue = 13;
+        }
         if($request->api_name == "Cyrus"){
             $defaultnovalue = 5;
         }
         if($request->api_name == "Kwikapi"){
-            $defaultnovalue = 6;    
+            $defaultnovalue = 6;
         }
 
-        api_circlecode::create([
-            'api_circle_code_id' => $uservalue,
+        providercode::create([
+            'api_provider_code_id' => $uservalue,
             'api_id' => $defaultnovalue,
             'api_name' => $request->api_name,
-            'service_circle_id' => 2,
-            'circle_name' => $request->circle_name,
-            'circle_code' => 30,
+            'provider_id' => 10,
+            'provider' => $request->provider,
+            'provider_code' => 2,
             'is_active' => 1,
         ]);
 
-        return redirect('/apicircle');
+        return redirect('/providercode');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(api_circlecode $api_circlecode)
+    public function show(providercode $providercode)
     {
         //
     }
@@ -69,7 +70,7 @@ class ApiCirclecodeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(api_circlecode $api_circlecode)
+    public function edit(providercode $providercode)
     {
         //
     }
@@ -77,7 +78,7 @@ class ApiCirclecodeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, api_circlecode $api_circlecode)
+    public function update(Request $request, providercode $providercode)
     {
         //
     }
@@ -85,7 +86,7 @@ class ApiCirclecodeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(api_circlecode $api_circlecode)
+    public function destroy(providercode $providercode)
     {
         //
     }

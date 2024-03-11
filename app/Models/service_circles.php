@@ -5,17 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class api_provider extends Model
+class service_circles extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'api_id',
-        'api_name',
-        'provider_id',
-        'provider',
-        'commission_amount',
-        'commission_percentage',
+        'service_circle_id',
+        'circle_name',
+        'tiptopmoney_code',
         'is_active',
 
     ];

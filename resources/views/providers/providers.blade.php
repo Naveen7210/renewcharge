@@ -6,8 +6,8 @@
     <div class="flex">
         <x-slot name="header">
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <x-nav-link :href="route('apicircle.create')" >
-                    {{ __('Add ApiCircle') }}
+                <x-nav-link :href="route('providers.create')" >
+                    {{ __('Add Providers') }}
                 </x-nav-link>
             </div>
         </x-slot>
@@ -21,20 +21,20 @@
                         <tr>
                             <th>Sl No</th>
                             <th>Api Name</th>
-                            <th>Api Id</th>
-                            <th>Service Id</th>
-                            <th>Circel Name</th>
+                            <th>Provider</th>
+                            <th>Amount</th>
+                            <th>Amount Percentage</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $i = 1; ?>
-                        @foreach($apicircles as $apicircle)
+                        @foreach($providers as $provider)
                         <tr>
                             <td><?php echo $i; ?></td>
-                            <td>{{$apicircle->api_name}}</td>
-                            <td>{{$apicircle->api_id}}</td>
-                            <td>{{$apicircle->service_circle_id}}</td>
-                            <td>{{$apicircle->circle_name}}</td>
+                            <td>{{$provider->api_name}}</td>
+                            <td>{{$provider->provider}}</td>
+                            <td>{{$provider->commission_amount}}</td>
+                            <td>{{$provider->commission_percentage}}</td>
                         </tr>
                         <?php $i++; ?>
                         @endforeach

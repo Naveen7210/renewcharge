@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class api_provider extends Model
+class providers extends Model
 {
     use HasFactory;
 
@@ -13,7 +13,11 @@ class api_provider extends Model
         'api_id',
         'api_name',
         'provider_id',
+        'service_id',
+        'service',
         'provider',
+        'logo',
+        'state',
         'commission_amount',
         'commission_percentage',
         'is_active',

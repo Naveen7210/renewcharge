@@ -3,8 +3,12 @@
 use App\Http\Controllers\ApiCirclecodeController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ApiProviderController;
+use App\Http\Controllers\ApiroutesController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProvidercodeController;
+use App\Http\Controllers\RechargesController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\ProvidersController;
 use App\Http\Controllers\walletController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +39,13 @@ Route::resource('/apiwallet', ApiController::class);
 
 Route::resource('/apicircle', ApiCirclecodeController::class);
 
-Route::resource('/apiprovider', ApiProviderController::class);
+Route::resource('/providers', ProvidersController::class);
+
+Route::resource('/providercode', ProvidercodeController::class);
+
+Route::resource('/apiroutes', ApiroutesController::class);
+
+Route::resource('/recharges', RechargesController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

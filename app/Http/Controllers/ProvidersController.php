@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\api_provider;
-use Illuminate\Support\Facades\Hash;
+use App\Models\providers;
 use Illuminate\Http\Request;
 
-class ApiProviderController extends Controller
+class ProvidersController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $apiproviders = api_provider::get();
-        return view('apiprovider.apiprovider')->with('apiproviders', $apiproviders);
+        $providers = providers::get();
+        return view('providers.providers')->with('providers', $providers);
     }
 
     /**
@@ -22,7 +21,7 @@ class ApiProviderController extends Controller
      */
     public function create()
     {
-        return view('apiprovider.addapiprovider');
+        return view('providers.addproviders');
     }
 
     /**
@@ -31,37 +30,45 @@ class ApiProviderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'api_name' => ['required', 'string', 'max:255'],
+            'service' => ['required', 'string', 'max:255'],
             'provider' => ['required', 'string', 'max:255'],
+            'state' => ['required', 'string', 'max:255'],
+            'logo' => ['required'],
         ]);
 
-        $userid = api_provider::orderBy('id','DESC')->pluck('id')->first();
+        $userid = providers::orderBy('id','DESC')->pluck('id')->first();
         $uservalue = 1;
         if($request->api_name == "MROBOTICS"){
             $defaultnovalue = 13;
+        }
+        if($request->api_name == "Cyrus"){
+            $defaultnovalue = 5;
         }
         if($request->api_name == "Kwikapi"){
             $defaultnovalue = 6;
         }
 
-        api_provider::create([
-            'api_provider_id' => $uservalue,
+        providers::create([
+            'provider_id' => $uservalue,
+            'service_id' => 1,
+            'service' => $request->service,
+            'provider' => $request->api_name,
+            'state' => $request->state,
+            'logo' => $request->logo,
             'api_id' => $defaultnovalue,
             'api_name' => $request->api_name,
-            'provider_id' => 10,
-            'provider' => $request->provider,
             'commission_amount' => 0,
-            'commission_percentage' => 2,
+            'commission_percentage' => 0,
             'is_active' => 1,
         ]);
 
-        return redirect('/apiprovider');
+        return redirect('/providers');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(api_provider $api_provider)
+    public function show(providers $providers)
     {
         //
     }
@@ -69,7 +76,7 @@ class ApiProviderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(api_provider $api_provider)
+    public function edit(providers $providers)
     {
         //
     }
@@ -77,7 +84,7 @@ class ApiProviderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, api_provider $api_provider)
+    public function update(Request $request, providers $providers)
     {
         //
     }
@@ -85,7 +92,7 @@ class ApiProviderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(api_provider $api_provider)
+    public function destroy(providers $providers)
     {
         //
     }

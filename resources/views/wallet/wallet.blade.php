@@ -6,9 +6,9 @@
     <div class="flex">
         <x-slot name="header">
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                <x-nav-link :href="route('wallet.create')" >
                     {{ __('Add wallet') }}
-                </h2>
+                </x-nav-link>
             </div>
         </x-slot>
     </div>

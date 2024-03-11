@@ -6,9 +6,9 @@
     <div class="flex">
         <x-slot name="header">
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Add Members') }}
-                </h2>
+                <x-nav-link :href="route('apiroutes.create')" >
+                    {{ __('Add ApiRoute') }}
+                </x-nav-link>
             </div>
         </x-slot>
     </div>
@@ -20,21 +20,21 @@
                 <thead>
                         <tr>
                             <th>Sl No</th>
-                            <th>Api Name</th>
-                            <th>Provider</th>
-                            <th>Amount</th>
-                            <th>Amount Percentage</th>
+                            <th>Route Type</th>
+                            <th>Api Name 1</th>
+                            <th>Api Name 2</th>
+                            <th>Api Name 3</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $i = 1; ?>
-                        @foreach($apiproviders as $apiprovider)
+                        @foreach($apiroutes as $apiroute)
                         <tr>
                             <td><?php echo $i; ?></td>
-                            <td>{{$apiprovider->api_name}}</td>
-                            <td>{{$apiprovider->provider}}</td>
-                            <td>{{$apiprovider->commission_amount}}</td>
-                            <td>{{$apiprovider->commission_percentage}}</td>
+                            <td>{{$apiroute->route_type}}</td>
+                            <td>{{$apiroute->api_1_name}}</td>
+                            <td>{{$apiroute->api_2_name}}</td>
+                            <td>{{$apiroute->api_3_name}}</td>
                         </tr>
                         <?php $i++; ?>
                         @endforeach

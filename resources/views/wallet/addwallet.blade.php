@@ -7,7 +7,7 @@
         <x-slot name="header">
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Members') }}
+                    {{ __('wallet') }}
                 </h2>
             </div>
         </x-slot>
@@ -20,84 +20,55 @@
                     @csrf
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <x-input-label for="user_type" :value="__('user_type')" />
-                            <x-text-input id="user_type" class="block mt-1 w-full" type="text" placeholder="user_type" name="user_type" :value="old('user_type')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('user_type')" class="mt-2" />
+                            <x-input-label for="api_name" :value="__('api_name')" />
+                            <x-text-input id="api_name" class="block mt-1 w-full" type="text" placeholder="api_name" name="api_name" :value="old('api_name')" autofocus autocomplete="username" />
+                            <x-input-error :messages="$errors->get('api_name')" class="mt-2" />
                         </div>
                         <div class="form-group col-md-3">
-                            <x-input-label for="plan_id" :value="__('plan_id')" />
-                            <x-text-input id="plan_id" class="block mt-1 w-full" type="text" placeholder="plan_id" name="plan_id" :value="old('plan_id')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('plan_id')" class="mt-2" />
+                            <x-input-label for="user_name" :value="__('user_name')" />
+                            <x-text-input id="user_name" class="block mt-1 w-full" type="text" placeholder="user_name" name="user_name" :value="old('user_name')" autofocus autocomplete="username" />
+                            <x-input-error :messages="$errors->get('user_name')" class="mt-2" />
                         </div>
                         <div class="form-group col-md-3">
-                            <x-input-label for="name" :value="__('name')" />
-                            <x-text-input id="name" class="block mt-1 w-full" type="text" placeholder="name" name="name" :value="old('name')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                            <x-input-label for="transaction_type" :value="__('transaction_type')" />
+                            <select class="block mt-1 w-full" name="transaction_type" id="transaction_type" >
+                                <option value="Recharge">Recharge</option>
+                                <option value="API Top up">API Top up</option>
+                                <option value="Send Money">Send Money</option>
+                                <option value="Recieve Money">Recieve Money</option>
+                                <option value="Reverse">Reverse</option>
+                                <option value="Commission">Commission</option>
+                                <option value="Refund">Refund</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('transaction_type')" class="mt-2" />
                         </div>
                         <div class="form-group col-md-3">
-                            <x-input-label for="email" :value="__('email')" />
-                            <x-text-input id="email" class="block mt-1 w-full" type="email" placeholder="email" name="email" :value="old('email')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                            <x-input-label for="wallet_type" :value="__('wallet_type')" />
+                            <select class="block mt-1 w-full" name="wallet_type" id="wallet_type" >
+                                <option value="Wallet">Wallet</option>
+                                <option value="Commission">Commission</option>
+                                <option value="Mixed">Mixed</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('wallet_type')" class="mt-2" />
                         </div>
                         <div class="form-group col-md-3">
-                            <x-input-label for="mobile" :value="__('mobile')" />
-                            <x-text-input id="mobile" class="block mt-1 w-full" type="text" placeholder="mobile" name="mobile" :value="old('mobile')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('mobile')" class="mt-2" />
+                            <x-input-label for="cash_credit" :value="__('cash_credit')" />
+                            <select class="block mt-1 w-full" name="cash_credit" id="cash_credit" >
+                                <option value="Cash">Cash</option>
+                                <option value="Credit">Credit</option>
+                                <option value="Debit">Debit</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('cash_credit')" class="mt-2" />
                         </div>
                         <div class="form-group col-md-3">
-                            <x-input-label for="password" :value="__('password')" />
-                            <x-text-input id="password" class="block mt-1 w-full" type="password" placeholder="password" name="password" :value="old('password')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                            <x-input-label for="circle_name" :value="__('circle_name')" />
+                            <x-text-input id="circle_name" class="block mt-1 w-full" type="text" placeholder="circle_name" name="circle_name" :value="old('circle_name')" autofocus autocomplete="username" />
+                            <x-input-error :messages="$errors->get('circle_name')" class="mt-2" />
                         </div>
                         <div class="form-group col-md-3">
-                            <x-input-label for="password_confirmation" :value="__('password_confirmation')" />
-                            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" placeholder="password_confirmation" name="password_confirmation" :value="old('password')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-                        </div>
-                        <div class="form-group col-md-3">
-                            <x-input-label for="pincode" :value="__('pincode')" />
-                            <x-text-input id="pincode" class="block mt-1 w-full" type="text" placeholder="pincode" name="pincode" :value="old('pincode')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('pincode')" class="mt-2" />
-                        </div>
-                        <div class="form-group col-md-3">
-                            <x-input-label for="district" :value="__('district')" />
-                            <x-text-input id="district" class="block mt-1 w-full" type="text" placeholder="district" name="district" :value="old('district')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('district')" class="mt-2" />
-                        </div>
-                        <div class="form-group col-md-3">
-                            <x-input-label for="state" :value="__('state')" />
-                            <x-text-input id="state" class="block mt-1 w-full" type="text" placeholder="state" name="state" :value="old('state')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('state')" class="mt-2" />
-                        </div>
-                        <div class="form-group col-md-3">
-                            <x-input-label for="user_address" :value="__('user_address')" />
-                            <x-text-input id="user_address" class="block mt-1 w-full" type="text" placeholder="user_address" name="user_address" :value="old('user_address')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('user_address')" class="mt-2" />
-                        </div>
-                        <div class="form-group col-md-3">
-                            <x-input-label for="profile_pic" :value="__('profile_pic')" />
-                            <x-text-input id="profile_pic" class="block mt-1 w-full" type="file" placeholder="profile_pic" name="profile_pic" :value="old('profile_pic')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('profile_pic')" class="mt-2" />
-                        </div>
-                        <div class="form-group col-md-3">
-                            <x-input-label for="gst_no" :value="__('gst_no')" />
-                            <x-text-input id="gst_no" class="block mt-1 w-full" type="text" placeholder="gst_no" name="gst_no" :value="old('gst_no')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('gst_no')" class="mt-2" />
-                        </div>
-                        <div class="form-group col-md-3">
-                            <x-input-label for="pancard" :value="__('pancard')" />
-                            <x-text-input id="pancard" class="block mt-1 w-full" type="text" placeholder="pancard" name="pancard" :value="old('pancard')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('pancard')" class="mt-2" />
-                        </div>
-                        <div class="form-group col-md-3">
-                            <x-input-label for="adhaar_card" :value="__('adhaar_card')" />
-                            <x-text-input id="adhaar_card" class="block mt-1 w-full" type="text" placeholder="adhaar_card" name="adhaar_card" :value="old('adhaar_card')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('adhaar_card')" class="mt-2" />
-                        </div>
-                        <div class="form-group col-md-3">
-                            <x-input-label for="company_name" :value="__('company_name')" />
-                            <x-text-input id="company_name" class="block mt-1 w-full" type="text" placeholder="company_name" name="company_name" :value="old('company_name')" autofocus autocomplete="username" />
-                            <x-input-error :messages="$errors->get('company_name')" class="mt-2" />
+                            <x-input-label for="mobile_number" :value="__('mobile_number')" />
+                            <x-text-input id="mobile_number" class="block mt-1 w-full" type="text" placeholder="mobile_number" name="mobile_number" :value="old('mobile_number')" autofocus autocomplete="username" />
+                            <x-input-error :messages="$errors->get('mobile_number')" class="mt-2" />
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
