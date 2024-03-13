@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\recharges;
 use App\Models\providercode;
 use App\Models\service_circles;
+use App\Models\service_types;
 use Illuminate\Http\Request;
 
 class RechargesController extends Controller
@@ -23,7 +24,7 @@ class RechargesController extends Controller
      */
     public function create()
     {
-        $api = providercode::where('api_name','=','Cyrus')->get();
+        $api = service_types::where('servicetype','=','Prepaid')->get();
         $circle = service_circles::get();
         return view('recharges.addrecharge')->with('api',$api)->with('circle',$circle);
     }

@@ -18,14 +18,20 @@
                 <x-nav-link :href="url('providers')" :active="request()->routeIs('providers')">
                     {{ __('Providers') }}
                 </x-nav-link>
-                <x-nav-link :href="url('providercode')" :active="request()->routeIs('providercode')">
-                    {{ __('ProviderCode') }}
+                <x-nav-link :href="url('serviceproviders')" :active="request()->routeIs('serviceproviders')">
+                    {{ __('Service Provider') }}
                 </x-nav-link>
                 <x-nav-link :href="url('apiroutes')" :active="request()->routeIs('apiroutes')">
                     {{ __('ApiRoutes') }}
                 </x-nav-link>
                 <x-nav-link :href="url('recharges')" :active="request()->routeIs('recharges')">
                     {{ __('Recharges') }}
+                </x-nav-link>
+                <x-nav-link :href="url('servicetype')" :active="request()->routeIs('servicetype')">
+                    {{ __('Service Type') }}
+                </x-nav-link>
+                <x-nav-link :href="url('circlecodes')" :active="request()->routeIs('circlecodes')">
+                    {{ __('Circle Code') }}
                 </x-nav-link>
             </div>
         </x-slot>

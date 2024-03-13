@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\providers;
 use Illuminate\Http\Request;
+use App\Models\service_types;
 
 class ProvidersController extends Controller
 {
@@ -13,15 +14,17 @@ class ProvidersController extends Controller
     public function index()
     {
         $providers = providers::get();
-        return view('providers.providers')->with('providers', $providers);
+        $servicetype = service_types::get();
+        return view('providers.providers')->with('providers', $providers)->with('servicetype', $servicetype);
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        return view('providers.addproviders');
+    {   
+        $servicesid = service_types::get();
+        return view('providers.addproviders')->with('servicesid',$servicesid);
     }
 
     /**
@@ -37,7 +40,7 @@ class ProvidersController extends Controller
         ]);
 
         $userid = providers::orderBy('id','DESC')->pluck('id')->first();
-        $uservalue = 1;
+        $uservalue = $userid + 1;
         if($request->api_name == "MROBOTICS"){
             $defaultnovalue = 13;
         }
@@ -48,13 +51,17 @@ class ProvidersController extends Controller
             $defaultnovalue = 6;
         }
 
+        $filename = $request->file('logo')->getClientOriginalName();
+        $path = $request->file('logo')->storeAs('images',$filename,'public');
+        $requestData["logo"] = '/storage/'.$path;
+
         providers::create([
             'provider_id' => $uservalue,
-            'service_id' => 1,
+            'service_id' => $uservalue,
             'service' => $request->service,
-            'provider' => $request->api_name,
+            'provider' => $request->provider,
             'state' => $request->state,
-            'logo' => $request->logo,
+            'logo' => $requestData["logo"],
             'api_id' => $defaultnovalue,
             'api_name' => $request->api_name,
             'commission_amount' => 0,

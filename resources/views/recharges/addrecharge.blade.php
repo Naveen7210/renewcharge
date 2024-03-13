@@ -33,7 +33,7 @@
                             <x-input-label for="service_provider" :value="__('service_provider')" />
                             <select class="block mt-1 w-full" name="service_provider" id="service_provider">
                                 @foreach($api as $api)
-                                <option value="{{$api->provider_id}}">{{$api->provider}}</option>
+                                <option value="{{$api->servicename_id}}">{{$api->servicename}}</option>
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('service_provider')" class="mt-2" />

@@ -31,7 +31,12 @@
                         </div>
                         <div class="form-group col-md-6">
                             <x-input-label for="service" :value="__('service')" />
-                            <x-text-input id="service" class="block mt-1 w-full" type="text" placeholder="service" name="service" :value="old('service')" autofocus autocomplete="username" />
+                            <select class="block mt-1 w-full" name="service">
+                                <option value="">Select Service</option>
+                                @foreach($servicesid as $servicesid)
+                                <option value="{{$servicesid->servicetype_id}}">{{$servicesid->servicetype}}</option>
+                                @endforeach
+                            </select>
                             <x-input-error :messages="$errors->get('service')" class="mt-2" />
                         </div>
                         <div class="form-group col-md-6">

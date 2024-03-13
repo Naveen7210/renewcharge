@@ -6,8 +6,8 @@
     <div class="flex">
         <x-slot name="header">
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <x-nav-link :href="route('providers.create')" >
-                    {{ __('Add Providers') }}
+                <x-nav-link :href="route('circlecodes.create')" >
+                    {{ __('Add Circle Code') }}
                 </x-nav-link>
             </div>
         </x-slot>
@@ -22,25 +22,43 @@
                             <th>Sl No</th>
                             <th>Api Name</th>
                             <th>Provider</th>
-                            <th>Service Type</th>
-                            <th>Amount</th>
+                            <th>Services</th>
+                            <th>circle</th>
+                            <th>circle code</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $i = 1; ?>
-                        @foreach($providers as $provider)
+                        @foreach($codes as $code)
                         <tr>
                             <td><?php echo $i; ?></td>
-                            <td>{{$provider->api_name}}</td>
-                            <td>{{$provider->provider}}</td>
-                            <th>
-                                @foreach($servicetype as $servicety)
-                                @if($servicety -> servicetype_id == $provid er->service)
-                                {{$servicety->servicetype}}
+                            <td>
+                                @foreach($apis as $apie)
+                                @if($apie->api_id == $code->api_id)
+                                {{$apie->api_name}}</td>
                                 @endif
                                 @endforeach
-                            </th>
-                            <td><img src="{{$provider->logo}}" width="50" height="50" style="border-radius: 30px;" ></td>
+                            <td>                                
+                                @foreach($providers as $provide)
+                                @if($provide->provider_id == $code->provider_id)
+                                {{$provide->provider}}
+                                @endif
+                                @endforeach
+                            </td>
+                            <td>                                
+                                @foreach($servicetype as $servicetyp)
+                                @if($servicetyp->servicetype_id == $code->service_id)
+                                {{$servicetyp->servicetype}}
+                                @endif
+                                @endforeach
+                            </td>
+                            <td>
+                                {{$code->circle_code}}
+                            </td>
+                            <td>
+                                {{$code->circle_code_id}}
+                            </td>
+                            <td></td>
                         </tr>
                         <?php $i++; ?>
                         @endforeach

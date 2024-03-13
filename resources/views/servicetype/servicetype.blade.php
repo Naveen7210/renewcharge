@@ -6,8 +6,8 @@
     <div class="flex">
         <x-slot name="header">
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <x-nav-link :href="route('providers.create')" >
-                    {{ __('Add Providers') }}
+                <x-nav-link :href="route('servicetype.create')" >
+                    {{ __('Add servicetype') }}
                 </x-nav-link>
             </div>
         </x-slot>
@@ -20,27 +20,17 @@
                 <thead>
                         <tr>
                             <th>Sl No</th>
-                            <th>Api Name</th>
-                            <th>Provider</th>
-                            <th>Service Type</th>
-                            <th>Amount</th>
+                            <th>servicetype</th>
+                            <th>servicename</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $i = 1; ?>
-                        @foreach($providers as $provider)
+                        @foreach($servicetypes as $servicetype)
                         <tr>
                             <td><?php echo $i; ?></td>
-                            <td>{{$provider->api_name}}</td>
-                            <td>{{$provider->provider}}</td>
-                            <th>
-                                @foreach($servicetype as $servicety)
-                                @if($servicety -> servicetype_id == $provid er->service)
-                                {{$servicety->servicetype}}
-                                @endif
-                                @endforeach
-                            </th>
-                            <td><img src="{{$provider->logo}}" width="50" height="50" style="border-radius: 30px;" ></td>
+                            <td>{{$servicetype->servicetype}}</td>
+                            <td>{{$servicetype->apiname}}</td>
                         </tr>
                         <?php $i++; ?>
                         @endforeach
