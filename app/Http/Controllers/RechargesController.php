@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\recharges;
 use App\Models\providercode;
-use App\Models\service_circles;
+use App\Models\providers;
+use App\Models\circle_codes;
 use App\Models\service_types;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 
 class RechargesController extends Controller
@@ -24,8 +26,8 @@ class RechargesController extends Controller
      */
     public function create()
     {
-        $api = service_types::where('servicetype','=','Prepaid')->get();
-        $circle = service_circles::get();
+        $api = providers::where('service','=',1)->get();
+        $circle = circle_codes::where('api_id','=',1)->where('service_id','=',1)->get();
         return view('recharges.addrecharge')->with('api',$api)->with('circle',$circle);
     }
 
@@ -41,6 +43,37 @@ class RechargesController extends Controller
             'service' => ['required', 'string', 'max:255'],
             'amount' => ['required', 'string', 'max:255'],
         ]);
+        return response()->json($request);
+        if($request->service == "Prepaid"){
+            $servicenovalue = 1;
+        }
+        if($request->service == "Postpaid"){
+            $servicenovalue = 2;
+        }
+        if($request->service == "DTH"){
+            $servicenovalue = 3;
+        }
+
+        $plantype = "Recharge";
+        $authorid = auth()->user()->user_id;
+
+        $findapiid = providers::where('provider_id','=',$request->service_provider)->where('service_id','=',$servicenovalue)->pluck('api_id')->first();
+
+        $findapiname = providers::where('provider_id','=',$request->service_provider)->where('service_id','=',$servicenovalue)->pluck('api_name')->first();
+
+        $findapiuser = 'username';
+
+        $findapipass = 'pass';
+
+        $findapikey = 'key';
+
+        $authorip = $_SERVER['REMOTE_ADDR'];
+
+
+        return $authorip;
+
+
+
 
         $userid = recharges::orderBy('id','DESC')->pluck('id')->first();
         $uservalue = 1;
@@ -51,20 +84,17 @@ class RechargesController extends Controller
             $defaultnovalue = 6;
         }
 
-        $servicename = providercode::where('provider_id','=',$request->service_provider)->pluck('provider')->first(); 
-        
-        $circlename = service_circles::where('service_circle_id','=',$request->circlecode)->pluck('circle_name')->first(); 
 
         recharges::create([
             'recharge_id' => $uservalue,
             'date' => date("d-m-y h:i:s"),
-            'service_id' => 1,
+            'service_id' => $servicenovalue,
             'service' => $request->service,
             'mobileno' => $request->mobileno,
             'service_provider_id' => $request->service_provider,
-            'service_provider' => $servicename,
+            'service_provider' => $request->service_provider,
             'circlecode_id' => $request->circlecode,
-            'circlecode' => $circlename,
+            'circlecode' => $request->circlecode,
             'amount' => $request->amount,
             'is_active' => 1,
         ]);

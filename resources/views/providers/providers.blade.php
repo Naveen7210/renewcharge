@@ -35,7 +35,7 @@
                             <td>{{$provider->provider}}</td>
                             <th>
                                 @foreach($servicetype as $servicety)
-                                @if($servicety -> servicetype_id == $provid er->service)
+                                @if($servicety -> servicetype_id == $provider->service)
                                 {{$servicety->servicetype}}
                                 @endif
                                 @endforeach

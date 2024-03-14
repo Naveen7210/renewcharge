@@ -1,7 +1,5 @@
 <x-app-layout>
-
-    <div class="flex">
-        <x-slot name="header">
+    <x-slot name="header">
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                 <x-nav-link :href="url('members')" :active="request()->routeIs('members')">
                     {{ __('Members') }}
@@ -34,8 +32,7 @@
                     {{ __('Circle Code') }}
                 </x-nav-link>
             </div>
-        </x-slot>
-    </div>
+    </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
