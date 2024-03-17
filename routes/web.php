@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\ApiCirclecodeController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ApiProviderController;
 use App\Http\Controllers\ApiroutesController;
 use App\Http\Controllers\CircleCodesController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProvidercodeController;
 use App\Http\Controllers\RechargesController;
 use App\Http\Controllers\userController;
@@ -14,7 +16,6 @@ use App\Http\Controllers\ServiceProvidersController;
 use App\Http\Controllers\ServiceTypesController;
 use App\Http\Controllers\walletController;
 use Carbon\Laravel\ServiceProvider;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

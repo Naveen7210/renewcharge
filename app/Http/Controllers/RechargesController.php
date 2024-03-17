@@ -9,6 +9,7 @@ use App\Models\circle_codes;
 use App\Models\Wallet;
 use App\Models\service_types;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 
 class RechargesController extends Controller
@@ -27,6 +28,8 @@ class RechargesController extends Controller
      */
     public function create()
     {
+        $api = providers::where('service','=',1)->get();
+        $circle = circle_codes::where('api_id','=',1)->where('service_id','=',1)->get();
         $api = providers::where('service','=',1)->get();
         $circle = circle_codes::where('api_id','=',1)->where('service_id','=',1)->get();
         return view('recharges.addrecharge')->with('api',$api)->with('circle',$circle);
@@ -142,11 +145,14 @@ class RechargesController extends Controller
             'recharge_id' => $uservalue,
             'date' => date("d-m-y h:i:s"),
             'service_id' => $servicenovalue,
+            'service_id' => $servicenovalue,
             'service' => $request->service,
             'mobileno' => $request->mobileno,
             'service_provider_id' => $request->service_provider,
             'service_provider' => $request->service_provider,
+            'service_provider' => $request->service_provider,
             'circlecode_id' => $request->circlecode,
+            'circlecode' => $request->circlecode,
             'circlecode' => $request->circlecode,
             'amount' => $request->amount,
             'is_active' => 1,

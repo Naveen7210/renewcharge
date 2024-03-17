@@ -43,6 +43,7 @@
                             <select class="block mt-1 w-full" name="circlecode" id="circlecode">
                                 @foreach($circle as $circle)
                                 <option value="{{$circle->circle_code_id}}">{{$circle->circle_code}}</option>
+                                <option value="{{$circle->circle_code_id}}">{{$circle->circle_code}}</option>
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('circlecode')" class="mt-2" />
