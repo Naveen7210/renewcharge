@@ -51,6 +51,14 @@ class ProvidersController extends Controller
             $defaultnovalue = 6;
         }
 
+        $providerids = providers::pluck('provider');
+        if(in_array($request->provider,json_decode($providerids))){
+            $providervalue = providers::where('provider','=',$request->provider)->pluck('providerid')->first();
+        }else{
+            $providerids = providers::pluck('providerid');
+            $providervalue = max(json_decode($providerids));
+        }
+
         $filename = $request->file('logo')->getClientOriginalName();
         $path = $request->file('logo')->storeAs('images',$filename,'public');
         $requestData["logo"] = '/storage/'.$path;
@@ -59,6 +67,7 @@ class ProvidersController extends Controller
             'provider_id' => $uservalue,
             'service_id' => $uservalue,
             'service' => $request->service,
+            'providerid' => $providervalue,
             'provider' => $request->provider,
             'state' => $request->state,
             'logo' => $requestData["logo"],

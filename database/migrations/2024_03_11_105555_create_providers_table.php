@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('api_name')->nullable();
             $table->integer('service_id')->nullable()->default(0);
             $table->integer('service')->nullable();
+            $table->integer('providerid')->nullable();
             $table->string('provider')->nullable();
             $table->string('logo')->nullable();
             $table->string('state')->nullable();

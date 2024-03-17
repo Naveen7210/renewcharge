@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\recharges;
 use App\Models\providercode;
-use App\Models\service_circles;
+use App\Models\providers;
+use App\Models\circle_codes;
+use App\Models\Wallet;
 use App\Models\service_types;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 
 class RechargesController extends Controller
@@ -24,8 +27,8 @@ class RechargesController extends Controller
      */
     public function create()
     {
-        $api = service_types::where('servicetype','=','Prepaid')->get();
-        $circle = service_circles::get();
+        $api = providers::where('service','=',1)->get();
+        $circle = circle_codes::where('api_id','=',1)->where('service_id','=',1)->get();
         return view('recharges.addrecharge')->with('api',$api)->with('circle',$circle);
     }
 
@@ -41,6 +44,89 @@ class RechargesController extends Controller
             'service' => ['required', 'string', 'max:255'],
             'amount' => ['required', 'string', 'max:255'],
         ]);
+        //return response()->json($request);
+        if($request->service == "Prepaid"){
+            $servicenovalue = 1;
+        }
+        if($request->service == "Postpaid"){
+            $servicenovalue = 2;
+        }
+        if($request->service == "DTH"){
+            $servicenovalue = 3;
+        }
+
+
+        $plantype = "Recharge";
+        $authorid = auth()->user()->user_id;
+
+        $findapiid = providers::where('providerid','=',$request->service_provider)->where('service','=',$servicenovalue)->pluck('api_id')->first();
+
+        $findapiname = providers::where('providerid','=',$request->service_provider)->where('service','=',$servicenovalue)->pluck('api_name')->first();
+
+        $findapiuser = 'username';
+
+        $findapipass = 'pass';
+
+        $findapikey = 'key';
+
+        $authorip = $_SERVER['REMOTE_ADDR'];
+
+        $all =  "type: " . $plantype . " " ."author: " . $authorid . " " ."apiid: ". $findapiid. " "  ."apiname: ". $findapiname. " "  ."apiuser: ". $findapiuser. " " ."apipassword: " . $findapipass. " "  ."apikey: ". $findapikey. " " ."ip: " . $authorip;
+
+
+        if(!(empty($plantype) || empty($authorid)|| empty($findapiid)|| empty($findapiname)|| empty($findapiuser)|| empty($findapipass)|| empty($findapikey)|| empty($authorip))){
+
+            $walletid = Wallet::orderBy('id','DESC')->pluck('id')->first();
+            $walletidvalue = $walletid + 1;
+            if(!(empty($walletid))){
+                $parentvalue = $walletid;
+            }else{
+                $parentvalue = 1;
+            }
+            $parentuservalue = auth()->user()->parent_id;
+            $whitevalue = 0;
+            $useridvalue = auth()->user()->user_id;
+            $usernamevalue = auth()->user()->user_name;
+            $namevalue = auth()->user()->name;
+            $wallettype= 'Wallet';
+            $cahtype= 'Cash';
+            $providerids = providers::where('providerid','=',$request->service_provider)->pluck('providerid')->first();
+            $provideridvalue= providers::where('providerid','=',$request->service_provider)->pluck('provider')->first();
+            $circleids = $request->circlecode;
+            $circlevallue = circle_codes::where('circle_code_id','=',$circleids)->pluck('circle_code')->first();
+            $mobilevalue = $request->mobileno;
+            $apppath = 'Web';
+            Wallet::create([
+                'wallet_id' => $walletidvalue,
+                'parent_id' => $parentvalue,
+                'parent_user_id' => $parentuservalue,
+                'white_label_user_id' => $whitevalue,
+                'api_id' => $findapiid,
+                'api_name' => $findapiname,
+                'user_id' => $useridvalue,
+                'user_name' => $usernamevalue,
+                'user_1_name' => $namevalue,
+                'transaction_type' => $plantype,
+                'wallet_type' => $wallettype,
+                'cash_credit' => $cahtype,
+                'provider_id' => $providerids,
+                'provider_name' => $provideridvalue,
+                'provider_type	' => $request->service,
+                'provider_name' => $provideridvalue,
+                'circle_id' => $circleids,  
+                'circle_name' => $circlevallue,
+                'mobile_number' => $mobilevalue,
+                'recharge_path' => $apppath,
+                'ip_address' => $authorip,
+            ]);
+            return redirect('/recharges');
+
+        }else{
+            $message = "Failed"; 
+            return $message;
+        }
+
+        //return $all . response()->json($request);
 
         $userid = recharges::orderBy('id','DESC')->pluck('id')->first();
         $uservalue = 1;
@@ -51,20 +137,17 @@ class RechargesController extends Controller
             $defaultnovalue = 6;
         }
 
-        $servicename = providercode::where('provider_id','=',$request->service_provider)->pluck('provider')->first(); 
-        
-        $circlename = service_circles::where('service_circle_id','=',$request->circlecode)->pluck('circle_name')->first(); 
 
         recharges::create([
             'recharge_id' => $uservalue,
             'date' => date("d-m-y h:i:s"),
-            'service_id' => 1,
+            'service_id' => $servicenovalue,
             'service' => $request->service,
             'mobileno' => $request->mobileno,
             'service_provider_id' => $request->service_provider,
-            'service_provider' => $servicename,
+            'service_provider' => $request->service_provider,
             'circlecode_id' => $request->circlecode,
-            'circlecode' => $circlename,
+            'circlecode' => $request->circlecode,
             'amount' => $request->amount,
             'is_active' => 1,
         ]);

@@ -15,6 +15,7 @@ class providers extends Model
         'provider_id',
         'service_id',
         'service',
+        'providerid',
         'provider',
         'logo',
         'state',
