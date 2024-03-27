@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\amountController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -7,6 +8,7 @@ use App\Http\Controllers\ApiCirclecodeController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ApiProviderController;
 use App\Http\Controllers\ApiroutesController;
+use App\Http\Controllers\ApiwalletController;
 use App\Http\Controllers\CircleCodesController;
 use App\Http\Controllers\ProvidercodeController;
 use App\Http\Controllers\RechargesController;
@@ -55,6 +57,18 @@ Route::resource('/recharges', RechargesController::class);
 Route::resource('/servicetype', ServiceTypesController::class);
 
 Route::resource('/circlecodes', CircleCodesController::class);
+
+Route::get('/amount', [amountController::class,'index']);
+
+Route::get('/loadamount', [amountController::class,'create']);
+
+Route::post('/loadcash', [amountController::class,'store']);
+
+Route::get('/apiamount', [ApiwalletController::class,'index']);
+
+Route::get('/loadapiamount', [ApiwalletController::class,'create']);
+
+Route::post('/loadapicash', [ApiwalletController::class,'store']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\apiwallet;
 use App\Models\recharges;
 use App\Models\providercode;
 use App\Models\providers;
 use App\Models\circle_codes;
 use App\Models\Wallet;
 use App\Models\service_types;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 
@@ -28,11 +28,11 @@ class RechargesController extends Controller
      */
     public function create()
     {
-        $api = providers::where('service','=',1)->get();
-        $circle = circle_codes::where('api_id','=',1)->where('service_id','=',1)->get();
-        $api = providers::where('service','=',1)->get();
-        $circle = circle_codes::where('api_id','=',1)->where('service_id','=',1)->get();
-        return view('recharges.addrecharge')->with('api',$api)->with('circle',$circle);
+        $api = providers::where('service', '=', 1)->get();
+        $circle = circle_codes::where('api_id', '=', 1)->where('service_id', '=', 1)->get();
+        $api = providers::where('service', '=', 1)->get();
+        $circle = circle_codes::where('api_id', '=', 1)->where('service_id', '=', 1)->get();
+        return view('recharges.addrecharge')->with('api', $api)->with('circle', $circle);
     }
 
     /**
@@ -48,13 +48,13 @@ class RechargesController extends Controller
             'amount' => ['required', 'string', 'max:255'],
         ]);
         //return response()->json($request);
-        if($request->service == "Prepaid"){
+        if ($request->service == "Prepaid") {
             $servicenovalue = 1;
         }
-        if($request->service == "Postpaid"){
+        if ($request->service == "Postpaid") {
             $servicenovalue = 2;
         }
-        if($request->service == "DTH"){
+        if ($request->service == "DTH") {
             $servicenovalue = 3;
         }
 
@@ -62,9 +62,9 @@ class RechargesController extends Controller
         $plantype = "Recharge";
         $authorid = auth()->user()->user_id;
 
-        $findapiid = providers::where('providerid','=',$request->service_provider)->where('service','=',$servicenovalue)->pluck('api_id')->first();
+        $findapiid = providers::where('providerid', '=', $request->service_provider)->where('service', '=', $servicenovalue)->pluck('api_id')->first();
 
-        $findapiname = providers::where('providerid','=',$request->service_provider)->where('service','=',$servicenovalue)->pluck('api_name')->first();
+        $findapiname = providers::where('providerid', '=', $request->service_provider)->where('service', '=', $servicenovalue)->pluck('api_name')->first();
 
         $findapiuser = 'username';
 
@@ -74,16 +74,16 @@ class RechargesController extends Controller
 
         $authorip = $_SERVER['REMOTE_ADDR'];
 
-        $all =  "type: " . $plantype . " " ."author: " . $authorid . " " ."apiid: ". $findapiid. " "  ."apiname: ". $findapiname. " "  ."apiuser: ". $findapiuser. " " ."apipassword: " . $findapipass. " "  ."apikey: ". $findapikey. " " ."ip: " . $authorip;
+        $all =  "type: " . $plantype . " " . "author: " . $authorid . " " . "apiid: " . $findapiid . " "  . "apiname: " . $findapiname . " "  . "apiuser: " . $findapiuser . " " . "apipassword: " . $findapipass . " "  . "apikey: " . $findapikey . " " . "ip: " . $authorip;
 
 
-        if(!(empty($plantype) || empty($authorid)|| empty($findapiid)|| empty($findapiname)|| empty($findapiuser)|| empty($findapipass)|| empty($findapikey)|| empty($authorip))){
+        if (!(empty($plantype) || empty($authorid) || empty($findapiid) || empty($findapiname) || empty($findapiuser) || empty($findapipass) || empty($findapikey) || empty($authorip))) {
 
-            $walletid = Wallet::orderBy('id','DESC')->pluck('id')->first();
+            $walletid = Wallet::orderBy('id', 'DESC')->pluck('id')->first();
             $walletidvalue = $walletid + 1;
-            if(!(empty($walletid))){
+            if (!(empty($walletid))) {
                 $parentvalue = $walletid;
-            }else{
+            } else {
                 $parentvalue = 1;
             }
             $parentuservalue = auth()->user()->parent_id;
@@ -91,14 +91,31 @@ class RechargesController extends Controller
             $useridvalue = auth()->user()->user_id;
             $usernamevalue = auth()->user()->user_name;
             $namevalue = auth()->user()->name;
-            $wallettype= 'Wallet';
-            $cahtype= 'Cash';
-            $providerids = providers::where('providerid','=',$request->service_provider)->pluck('providerid')->first();
-            $provideridvalue= providers::where('providerid','=',$request->service_provider)->pluck('provider')->first();
+            $wallettype = 'Wallet';
+            $cahtype = 'Cash';
+            $providerids = providers::where('providerid', '=', $request->service_provider)->pluck('providerid')->first();
+            $provideridvalue = providers::where('providerid', '=', $request->service_provider)->pluck('provider')->first();
             $circleids = $request->circlecode;
-            $circlevallue = circle_codes::where('circle_code_id','=',$circleids)->pluck('circle_code')->first();
+            $circlevallue = circle_codes::where('circle_code_id', '=', $circleids)->pluck('circle_code')->first();
             $mobilevalue = $request->mobileno;
             $apppath = 'Web';
+            $transdetails = 'Rs.' . ' ' . $request->amount . ' ' . 'Recharge For' . ' ' . $request->mobileno;
+            $datetime = date("d-m-y h:i:s");
+            $stat = 'Success';
+            $disp = 'No';
+            $com = 'Credit Update';
+            $comear = $request->amount;
+            $retaioldamo = wallet::where('user_id', '=', auth()->user()->user_id)->orderBy('id', 'DESC')->pluck('user_new_balance')->first();
+
+            $apiwalamount = apiwallet::orderBy('id', 'DESC')->pluck('api_new_balance')->first();
+            if ($request->amount > $retaioldamo) {
+                $message = "load amount";
+                return $message;
+            }
+
+            $usernewbal = $retaioldamo + $request->amount;
+            $newapiam = $retaioldamo -  $request->amount;
+
             Wallet::create([
                 'wallet_id' => $walletidvalue,
                 'parent_id' => $parentvalue,
@@ -116,27 +133,39 @@ class RechargesController extends Controller
                 'provider_name' => $provideridvalue,
                 'provider_type	' => $request->service,
                 'provider_name' => $provideridvalue,
-                'circle_id' => $circleids,  
+                'circle_id' => $circleids,
+                'amount' => $request->amount,
                 'circle_name' => $circlevallue,
                 'mobile_number' => $mobilevalue,
                 'recharge_path' => $apppath,
                 'ip_address' => $authorip,
+                'api_old_balance' => $apiwalamount,
+                'api_amount' => $apiwalamount,
+                'api_new_balance' => $apiwalamount,
+                'user_old_balance' =>  $retaioldamo,
+                'total_amount' => $newapiam,
+                'user_new_balance' => $newapiam,
+                'transaction_details' => $transdetails,
+                'transaction_date' => $datetime,
+                'status' => $stat,
+                'disputed' => $disp,
+                'comment' => $circlevallue,
+                'commission_earned' => $comear,
             ]);
             return redirect('/recharges');
-
-        }else{
-            $message = "Failed"; 
+        } else {
+            $message = "Failed";
             return $message;
         }
 
         //return $all . response()->json($request);
 
-        $userid = recharges::orderBy('id','DESC')->pluck('id')->first();
+        $userid = recharges::orderBy('id', 'DESC')->pluck('id')->first();
         $uservalue = 1;
-        if($request->api_name == "MROBOTICS"){
+        if ($request->api_name == "MROBOTICS") {
             $defaultnovalue = 13;
         }
-        if($request->api_name == "Kwikapi"){
+        if ($request->api_name == "Kwikapi") {
             $defaultnovalue = 6;
         }
 

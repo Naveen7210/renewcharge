@@ -31,6 +31,12 @@
                 <x-nav-link :href="url('circlecodes')" :active="request()->routeIs('circlecodes')">
                     {{ __('Circle Code') }}
                 </x-nav-link>
+                <x-nav-link :href="url('amount')" :active="request()->routeIs('amount')">
+                    {{ __('Amount') }}
+                </x-nav-link>
+                <x-nav-link :href="url('apiamount')" :active="request()->routeIs('apiamount')">
+                    {{ __('API Amount') }}
+                </x-nav-link>
             </div>
     </x-slot>
 
